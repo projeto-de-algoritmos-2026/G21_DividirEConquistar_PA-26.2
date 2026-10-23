@@ -1,0 +1,1238 @@
+{
+ "source": "OpenSky Network /api/states/all",
+ "captured_at": 1793572132,
+ "aircraft": [
+  {
+   "callsign": "ARG1544",
+   "lat": -33.1624,
+   "lon": -60.6159,
+   "altitude_ft": 38000,
+   "heading": 306,
+   "speed_kt": 413
+  },
+  {
+   "callsign": "GLO7210",
+   "lat": -13.6302,
+   "lon": -53.7291,
+   "altitude_ft": 38000,
+   "heading": 333,
+   "speed_kt": 455
+  },
+  {
+   "callsign": "GLO9044",
+   "lat": -17.1325,
+   "lon": -39.9873,
+   "altitude_ft": 39000,
+   "heading": 28,
+   "speed_kt": 478
+  },
+  {
+   "callsign": "TAM3326",
+   "lat": -24.3203,
+   "lon": -47.2085,
+   "altitude_ft": 27550,
+   "heading": 229,
+   "speed_kt": 335
+  },
+  {
+   "callsign": "TAM3255",
+   "lat": -21.8105,
+   "lon": -45.9021,
+   "altitude_ft": 32375,
+   "heading": 210,
+   "speed_kt": 407
+  },
+  {
+   "callsign": "GLO1955",
+   "lat": -22.1825,
+   "lon": -42.69,
+   "altitude_ft": 23575,
+   "heading": 255,
+   "speed_kt": 365
+  },
+  {
+   "callsign": "AZU4201",
+   "lat": -23.4711,
+   "lon": -46.8625,
+   "altitude_ft": 5900,
+   "heading": 113,
+   "speed_kt": 201
+  },
+  {
+   "callsign": "PSOMI",
+   "lat": -16.6464,
+   "lon": -44.7378,
+   "altitude_ft": 41000,
+   "heading": 23,
+   "speed_kt": 464
+  },
+  {
+   "callsign": "GLO1533",
+   "lat": -21.3487,
+   "lon": -45.9816,
+   "altitude_ft": 36000,
+   "heading": 210,
+   "speed_kt": 437
+  },
+  {
+   "callsign": "AVA8496",
+   "lat": 5.3105,
+   "lon": -73.9136,
+   "altitude_ft": 17300,
+   "heading": 14,
+   "speed_kt": 388
+  },
+  {
+   "callsign": "TAM3885",
+   "lat": -24.3007,
+   "lon": -46.6258,
+   "altitude_ft": 19400,
+   "heading": 0,
+   "speed_kt": 320
+  },
+  {
+   "callsign": "GLO2097",
+   "lat": -20.0712,
+   "lon": -41.1571,
+   "altitude_ft": 38000,
+   "heading": 209,
+   "speed_kt": 436
+  },
+  {
+   "callsign": "LVGQN",
+   "lat": -32.0721,
+   "lon": -64.8888,
+   "altitude_ft": 19600,
+   "heading": 106,
+   "speed_kt": 306
+  },
+  {
+   "callsign": "JES3063",
+   "lat": -32.474,
+   "lon": -58.7018,
+   "altitude_ft": 32325,
+   "heading": 180,
+   "speed_kt": 454
+  },
+  {
+   "callsign": "TAM3616",
+   "lat": -20.8332,
+   "lon": -47.6306,
+   "altitude_ft": 38000,
+   "heading": 347,
+   "speed_kt": 455
+  },
+  {
+   "callsign": "GLO1701",
+   "lat": -14.4814,
+   "lon": -45.8369,
+   "altitude_ft": 36000,
+   "heading": 234,
+   "speed_kt": 453
+  },
+  {
+   "callsign": "AZU2643",
+   "lat": -21.4566,
+   "lon": -45.1122,
+   "altitude_ft": 31000,
+   "heading": 39,
+   "speed_kt": 435
+  },
+  {
+   "callsign": "TAM3205",
+   "lat": -22.6645,
+   "lon": -48.1424,
+   "altitude_ft": 31150,
+   "heading": 113,
+   "speed_kt": 466
+  },
+  {
+   "callsign": "TAM4591",
+   "lat": -24.3025,
+   "lon": -48.2272,
+   "altitude_ft": 39025,
+   "heading": 346,
+   "speed_kt": 411
+  },
+  {
+   "callsign": "TAM3959",
+   "lat": -24.4158,
+   "lon": -46.8734,
+   "altitude_ft": 34025,
+   "heading": 246,
+   "speed_kt": 385
+  },
+  {
+   "callsign": "PSJAD",
+   "lat": -23.3938,
+   "lon": -47.3443,
+   "altitude_ft": 5400,
+   "heading": 133,
+   "speed_kt": 221
+  },
+  {
+   "callsign": "TAM3529",
+   "lat": -19.1714,
+   "lon": -47.7804,
+   "altitude_ft": 34000,
+   "heading": 318,
+   "speed_kt": 423
+  },
+  {
+   "callsign": "GLO1467",
+   "lat": -23.2202,
+   "lon": -46.5593,
+   "altitude_ft": 9125,
+   "heading": 202,
+   "speed_kt": 286
+  },
+  {
+   "callsign": "GLO1284",
+   "lat": -24.6687,
+   "lon": -47.3043,
+   "altitude_ft": 24000,
+   "heading": 213,
+   "speed_kt": 348
+  },
+  {
+   "callsign": "GLO1651",
+   "lat": -23.5676,
+   "lon": -46.6974,
+   "altitude_ft": 3650,
+   "heading": 148,
+   "speed_kt": 136
+  },
+  {
+   "callsign": "JES3110",
+   "lat": -31.8296,
+   "lon": -63.6323,
+   "altitude_ft": 18825,
+   "heading": 332,
+   "speed_kt": 349
+  },
+  {
+   "callsign": "TAM3321",
+   "lat": -14.0582,
+   "lon": -41.9633,
+   "altitude_ft": 34000,
+   "heading": 200,
+   "speed_kt": 463
+  },
+  {
+   "callsign": "JAT763",
+   "lat": -26.6681,
+   "lon": -50.6598,
+   "altitude_ft": 33950,
+   "heading": 246,
+   "speed_kt": 392
+  },
+  {
+   "callsign": "JES3795",
+   "lat": -22.8717,
+   "lon": -42.979,
+   "altitude_ft": 13075,
+   "heading": 209,
+   "speed_kt": 284
+  },
+  {
+   "callsign": "JEC5643",
+   "lat": 5.4057,
+   "lon": -73.8129,
+   "altitude_ft": 27250,
+   "heading": 246,
+   "speed_kt": 400
+  },
+  {
+   "callsign": "FACH1",
+   "lat": -30.0337,
+   "lon": -65.4422,
+   "altitude_ft": 33050,
+   "heading": 59,
+   "speed_kt": 524
+  },
+  {
+   "callsign": "TAM8169",
+   "lat": -25.5834,
+   "lon": -49.2116,
+   "altitude_ft": 35000,
+   "heading": 46,
+   "speed_kt": 475
+  },
+  {
+   "callsign": "TAM4693",
+   "lat": -22.2443,
+   "lon": -42.9036,
+   "altitude_ft": 20075,
+   "heading": 242,
+   "speed_kt": 329
+  },
+  {
+   "callsign": "GLO1037",
+   "lat": -23.8474,
+   "lon": -46.4279,
+   "altitude_ft": 10750,
+   "heading": 267,
+   "speed_kt": 230
+  },
+  {
+   "callsign": "ARG1250",
+   "lat": -23.4413,
+   "lon": -46.4962,
+   "altitude_ft": 2525,
+   "heading": 74,
+   "speed_kt": 155
+  },
+  {
+   "callsign": "TAM3210",
+   "lat": -19.578,
+   "lon": -48.0893,
+   "altitude_ft": 14525,
+   "heading": 345,
+   "speed_kt": 394
+  },
+  {
+   "callsign": "LAN763",
+   "lat": -23.0479,
+   "lon": -46.6442,
+   "altitude_ft": 9875,
+   "heading": 153,
+   "speed_kt": 280
+  },
+  {
+   "callsign": "TAM3360",
+   "lat": -15.405,
+   "lon": -42.807,
+   "altitude_ft": 34975,
+   "heading": 19,
+   "speed_kt": 458
+  },
+  {
+   "callsign": "LAN741",
+   "lat": -31.6046,
+   "lon": -62.0884,
+   "altitude_ft": 38000,
+   "heading": 252,
+   "speed_kt": 391
+  },
+  {
+   "callsign": "LAN008",
+   "lat": -33.2154,
+   "lon": -70.7953,
+   "altitude_ft": 4600,
+   "heading": 178,
+   "speed_kt": 169
+  },
+  {
+   "callsign": "LAN708",
+   "lat": -12.7495,
+   "lon": -58.0645,
+   "altitude_ft": 35000,
+   "heading": 39,
+   "speed_kt": 503
+  },
+  {
+   "callsign": "LXP384",
+   "lat": -33.4185,
+   "lon": -70.8011,
+   "altitude_ft": 2325,
+   "heading": 178,
+   "speed_kt": 182
+  },
+  {
+   "callsign": "TAM8157",
+   "lat": -21.2913,
+   "lon": -45.9039,
+   "altitude_ft": 39175,
+   "heading": 189,
+   "speed_kt": 470
+  },
+  {
+   "callsign": "TAM8059",
+   "lat": -22.0309,
+   "lon": -39.3901,
+   "altitude_ft": 40000,
+   "heading": 258,
+   "speed_kt": 422
+  },
+  {
+   "callsign": "LAN755",
+   "lat": -30.6821,
+   "lon": -62.0453,
+   "altitude_ft": 36025,
+   "heading": 251,
+   "speed_kt": 381
+  },
+  {
+   "callsign": "ARE4052",
+   "lat": 3.4455,
+   "lon": -73.2485,
+   "altitude_ft": 38000,
+   "heading": 332,
+   "speed_kt": 445
+  },
+  {
+   "callsign": "LAN714",
+   "lat": -25.3063,
+   "lon": -50.3244,
+   "altitude_ft": 39000,
+   "heading": 41,
+   "speed_kt": 519
+  },
+  {
+   "callsign": "TAM3093",
+   "lat": -27.3859,
+   "lon": -48.4225,
+   "altitude_ft": 12200,
+   "heading": 8,
+   "speed_kt": 346
+  },
+  {
+   "callsign": "GLO1417",
+   "lat": -19.6283,
+   "lon": -47.0903,
+   "altitude_ft": 39025,
+   "heading": 172,
+   "speed_kt": 449
+  },
+  {
+   "callsign": "GLO1968",
+   "lat": -23.0576,
+   "lon": -43.1415,
+   "altitude_ft": 16250,
+   "heading": 219,
+   "speed_kt": 362
+  },
+  {
+   "callsign": "IBE6113",
+   "lat": -20.4459,
+   "lon": -57.9464,
+   "altitude_ft": 40000,
+   "heading": 220,
+   "speed_kt": 459
+  },
+  {
+   "callsign": "TAM8120",
+   "lat": -16.0416,
+   "lon": -42.2061,
+   "altitude_ft": 31000,
+   "heading": 26,
+   "speed_kt": 500
+  },
+  {
+   "callsign": "TAM8073",
+   "lat": -23.408,
+   "lon": -46.6914,
+   "altitude_ft": 6475,
+   "heading": 209,
+   "speed_kt": 203
+  },
+  {
+   "callsign": "TPA4055",
+   "lat": -25.8029,
+   "lon": -49.531,
+   "altitude_ft": 9525,
+   "heading": 21,
+   "speed_kt": 294
+  },
+  {
+   "callsign": "ACL1173",
+   "lat": 5.9569,
+   "lon": -73.3199,
+   "altitude_ft": 34000,
+   "heading": 232,
+   "speed_kt": 399
+  },
+  {
+   "callsign": "TAM3478",
+   "lat": -23.3078,
+   "lon": -46.283,
+   "altitude_ft": 8325,
+   "heading": 34,
+   "speed_kt": 286
+  },
+  {
+   "callsign": "TAM3590",
+   "lat": -20.6462,
+   "lon": -44.5934,
+   "altitude_ft": 25675,
+   "heading": 25,
+   "speed_kt": 413
+  },
+  {
+   "callsign": "AZU4019",
+   "lat": -23.8985,
+   "lon": -45.7372,
+   "altitude_ft": 15000,
+   "heading": 85,
+   "speed_kt": 282
+  },
+  {
+   "callsign": "GLO1729",
+   "lat": -15.0404,
+   "lon": -47.0515,
+   "altitude_ft": 37450,
+   "heading": 191,
+   "speed_kt": 427
+  },
+  {
+   "callsign": "PSZPN",
+   "lat": -12.3612,
+   "lon": -42.7605,
+   "altitude_ft": 45000,
+   "heading": 25,
+   "speed_kt": 374
+  },
+  {
+   "callsign": "TAM3471",
+   "lat": -15.53,
+   "lon": -44.1462,
+   "altitude_ft": 38025,
+   "heading": 205,
+   "speed_kt": 433
+  },
+  {
+   "callsign": "TAM3438",
+   "lat": -24.5563,
+   "lon": -49.0124,
+   "altitude_ft": 38000,
+   "heading": 261,
+   "speed_kt": 367
+  },
+  {
+   "callsign": "TAM3965",
+   "lat": -22.7148,
+   "lon": -47.566,
+   "altitude_ft": 21000,
+   "heading": 131,
+   "speed_kt": 318
+  },
+  {
+   "callsign": "GLO1117",
+   "lat": -23.6584,
+   "lon": -46.825,
+   "altitude_ft": 7025,
+   "heading": 317,
+   "speed_kt": 224
+  },
+  {
+   "callsign": "N771AM",
+   "lat": -33.3796,
+   "lon": -70.5748,
+   "altitude_ft": 2325,
+   "heading": 259,
+   "speed_kt": 85
+  },
+  {
+   "callsign": "TAM3613",
+   "lat": -16.4206,
+   "lon": -44.5774,
+   "altitude_ft": 34000,
+   "heading": 200,
+   "speed_kt": 460
+  },
+  {
+   "callsign": "TAM3376",
+   "lat": -22.3165,
+   "lon": -45.5511,
+   "altitude_ft": 25675,
+   "heading": 35,
+   "speed_kt": 445
+  },
+  {
+   "callsign": "TAM3163",
+   "lat": -24.1322,
+   "lon": -46.4962,
+   "altitude_ft": 13000,
+   "heading": 336,
+   "speed_kt": 247
+  },
+  {
+   "callsign": "GLO1438",
+   "lat": -23.7752,
+   "lon": -46.7767,
+   "altitude_ft": 9800,
+   "heading": 277,
+   "speed_kt": 283
+  },
+  {
+   "callsign": "TAM3761",
+   "lat": -14.4101,
+   "lon": -45.7728,
+   "altitude_ft": 32000,
+   "heading": 238,
+   "speed_kt": 450
+  },
+  {
+   "callsign": "TAM3665",
+   "lat": -20.8394,
+   "lon": -49.5352,
+   "altitude_ft": 38975,
+   "heading": 143,
+   "speed_kt": 496
+  },
+  {
+   "callsign": "TAM3839",
+   "lat": -25.5281,
+   "lon": -48.73,
+   "altitude_ft": 37000,
+   "heading": 17,
+   "speed_kt": 449
+  },
+  {
+   "callsign": "TAM3985",
+   "lat": -23.7987,
+   "lon": -45.4365,
+   "altitude_ft": 23975,
+   "heading": 268,
+   "speed_kt": 330
+  },
+  {
+   "callsign": "AVA146",
+   "lat": -13.1517,
+   "lon": -55.6606,
+   "altitude_ft": 36000,
+   "heading": 314,
+   "speed_kt": 454
+  },
+  {
+   "callsign": "GLO1795",
+   "lat": -24.7123,
+   "lon": -50.0213,
+   "altitude_ft": 37000,
+   "heading": 19,
+   "speed_kt": 484
+  },
+  {
+   "callsign": "TAM8099",
+   "lat": -23.4401,
+   "lon": -46.4916,
+   "altitude_ft": 2450,
+   "heading": 74,
+   "speed_kt": 151
+  },
+  {
+   "callsign": "TAM4599",
+   "lat": -22.8773,
+   "lon": -47.4272,
+   "altitude_ft": 22200,
+   "heading": 93,
+   "speed_kt": 396
+  },
+  {
+   "callsign": "TAM3064",
+   "lat": -26.8357,
+   "lon": -48.1854,
+   "altitude_ft": 19900,
+   "heading": 188,
+   "speed_kt": 332
+  },
+  {
+   "callsign": "TAM4645",
+   "lat": -23.1475,
+   "lon": -47.0304,
+   "altitude_ft": 15000,
+   "heading": 326,
+   "speed_kt": 258
+  },
+  {
+   "callsign": "39cf02",
+   "lat": -12.9705,
+   "lon": -41.5663,
+   "altitude_ft": 40000,
+   "heading": 200,
+   "speed_kt": 480
+  },
+  {
+   "callsign": "AFR488",
+   "lat": -3.4152,
+   "lon": -38.5447,
+   "altitude_ft": 9225,
+   "heading": 211,
+   "speed_kt": 276
+  },
+  {
+   "callsign": "TAM3519",
+   "lat": -22.908,
+   "lon": -46.9224,
+   "altitude_ft": 20025,
+   "heading": 82,
+   "speed_kt": 339
+  },
+  {
+   "callsign": "GLO1228",
+   "lat": -24.0701,
+   "lon": -46.6218,
+   "altitude_ft": 22750,
+   "heading": 243,
+   "speed_kt": 360
+  },
+  {
+   "callsign": "AZU2935",
+   "lat": -22.8283,
+   "lon": -42.8392,
+   "altitude_ft": 14250,
+   "heading": 351,
+   "speed_kt": 349
+  },
+  {
+   "callsign": "AZU2762",
+   "lat": -22.9264,
+   "lon": -47.2478,
+   "altitude_ft": 4300,
+   "heading": 127,
+   "speed_kt": 182
+  },
+  {
+   "callsign": "PSSVG",
+   "lat": -20.6205,
+   "lon": -54.2766,
+   "altitude_ft": 16925,
+   "heading": 120,
+   "speed_kt": 376
+  },
+  {
+   "callsign": "AZU2668",
+   "lat": -23.2679,
+   "lon": -46.9445,
+   "altitude_ft": 10000,
+   "heading": 128,
+   "speed_kt": 275
+  },
+  {
+   "callsign": "AZU2774",
+   "lat": -23.2535,
+   "lon": -46.6251,
+   "altitude_ft": 6425,
+   "heading": 203,
+   "speed_kt": 245
+  },
+  {
+   "callsign": "AZU4024",
+   "lat": -23.1544,
+   "lon": -43.3168,
+   "altitude_ft": 22500,
+   "heading": 251,
+   "speed_kt": 319
+  },
+  {
+   "callsign": "PSCHO",
+   "lat": -23.1153,
+   "lon": -46.9633,
+   "altitude_ft": 3650,
+   "heading": 177,
+   "speed_kt": 87
+  },
+  {
+   "callsign": "AVA8428",
+   "lat": 5.5484,
+   "lon": -73.8547,
+   "altitude_ft": 21025,
+   "heading": 14,
+   "speed_kt": 435
+  },
+  {
+   "callsign": "AZU2081",
+   "lat": -22.8994,
+   "lon": -47.395,
+   "altitude_ft": 6650,
+   "heading": 350,
+   "speed_kt": 227
+  },
+  {
+   "callsign": "TAM3233",
+   "lat": -12.7842,
+   "lon": -46.8433,
+   "altitude_ft": 35050,
+   "heading": 178,
+   "speed_kt": 473
+  },
+  {
+   "callsign": "TAP089",
+   "lat": -22.7217,
+   "lon": -46.2756,
+   "altitude_ft": 18000,
+   "heading": 188,
+   "speed_kt": 345
+  },
+  {
+   "callsign": "TAP058",
+   "lat": -12.237,
+   "lon": -45.1571,
+   "altitude_ft": 37000,
+   "heading": 32,
+   "speed_kt": 475
+  },
+  {
+   "callsign": "TAM3892",
+   "lat": -23.7752,
+   "lon": -43.793,
+   "altitude_ft": 32650,
+   "heading": 225,
+   "speed_kt": 418
+  },
+  {
+   "callsign": "TAP082",
+   "lat": -4.824,
+   "lon": -36.8716,
+   "altitude_ft": 37000,
+   "heading": 25,
+   "speed_kt": 470
+  },
+  {
+   "callsign": "AZU4816",
+   "lat": -11.3132,
+   "lon": -44.9193,
+   "altitude_ft": 38025,
+   "heading": 186,
+   "speed_kt": 443
+  },
+  {
+   "callsign": "AZU9287",
+   "lat": -9.0605,
+   "lon": -46.0016,
+   "altitude_ft": 37975,
+   "heading": 175,
+   "speed_kt": 446
+  },
+  {
+   "callsign": "AZU2939",
+   "lat": -23.6219,
+   "lon": -46.1166,
+   "altitude_ft": 14325,
+   "heading": 176,
+   "speed_kt": 340
+  },
+  {
+   "callsign": "TAM3685",
+   "lat": -23.3833,
+   "lon": -44.9718,
+   "altitude_ft": 27775,
+   "heading": 63,
+   "speed_kt": 445
+  },
+  {
+   "callsign": "TAM3113",
+   "lat": -16.6745,
+   "lon": -51.3837,
+   "altitude_ft": 34950,
+   "heading": 81,
+   "speed_kt": 496
+  },
+  {
+   "callsign": "AZU4277",
+   "lat": -20.5453,
+   "lon": -45.7631,
+   "altitude_ft": 38025,
+   "heading": 220,
+   "speed_kt": 402
+  },
+  {
+   "callsign": "a90429",
+   "lat": -25.0109,
+   "lon": -59.9062,
+   "altitude_ft": 45825,
+   "heading": 96,
+   "speed_kt": 473
+  },
+  {
+   "callsign": "AZU4298",
+   "lat": -16.9128,
+   "lon": -44.4855,
+   "altitude_ft": 38025,
+   "heading": 185,
+   "speed_kt": 438
+  },
+  {
+   "callsign": "GLO2117",
+   "lat": -22.9664,
+   "lon": -44.1892,
+   "altitude_ft": 15425,
+   "heading": 72,
+   "speed_kt": 382
+  },
+  {
+   "callsign": "e49311",
+   "lat": -5.8824,
+   "lon": -40.1304,
+   "altitude_ft": 39000,
+   "heading": 115,
+   "speed_kt": 430
+  },
+  {
+   "callsign": "TAM3939",
+   "lat": -23.5064,
+   "lon": -46.7665,
+   "altitude_ft": 5025,
+   "heading": 100,
+   "speed_kt": 176
+  },
+  {
+   "callsign": "LAN743",
+   "lat": -23.1802,
+   "lon": -47.7384,
+   "altitude_ft": 22100,
+   "heading": 23,
+   "speed_kt": 377
+  },
+  {
+   "callsign": "TAM3181",
+   "lat": -23.4512,
+   "lon": -46.5614,
+   "altitude_ft": 3625,
+   "heading": 74,
+   "speed_kt": 141
+  },
+  {
+   "callsign": "TAM8023",
+   "lat": -23.0215,
+   "lon": -46.8418,
+   "altitude_ft": 16500,
+   "heading": 38,
+   "speed_kt": 374
+  },
+  {
+   "callsign": "AZU2501",
+   "lat": -16.7894,
+   "lon": -42.5737,
+   "altitude_ft": 38000,
+   "heading": 219,
+   "speed_kt": 426
+  },
+  {
+   "callsign": "TAM3441",
+   "lat": -15.203,
+   "lon": -41.2331,
+   "altitude_ft": 34025,
+   "heading": 202,
+   "speed_kt": 464
+  },
+  {
+   "callsign": "TAM4647",
+   "lat": -20.7664,
+   "lon": -45.6518,
+   "altitude_ft": 35950,
+   "heading": 239,
+   "speed_kt": 401
+  },
+  {
+   "callsign": "TAM3631",
+   "lat": -23.4685,
+   "lon": -46.638,
+   "altitude_ft": 4450,
+   "heading": 124,
+   "speed_kt": 168
+  },
+  {
+   "callsign": "GLO2055",
+   "lat": -18.6215,
+   "lon": -40.9886,
+   "altitude_ft": 36000,
+   "heading": 191,
+   "speed_kt": 454
+  },
+  {
+   "callsign": "TAM3046",
+   "lat": -23.4553,
+   "lon": -45.4955,
+   "altitude_ft": 26125,
+   "heading": 74,
+   "speed_kt": 395
+  },
+  {
+   "callsign": "GLO1041",
+   "lat": -22.9415,
+   "lon": -43.1444,
+   "altitude_ft": 1325,
+   "heading": 138,
+   "speed_kt": 183
+  },
+  {
+   "callsign": "GLO1439",
+   "lat": -19.8974,
+   "lon": -48.9306,
+   "altitude_ft": 40000,
+   "heading": 160,
+   "speed_kt": 469
+  },
+  {
+   "callsign": "TAM4550",
+   "lat": -23.9269,
+   "lon": -46.3502,
+   "altitude_ft": 9000,
+   "heading": 208,
+   "speed_kt": 289
+  },
+  {
+   "callsign": "TAM3581",
+   "lat": -19.1283,
+   "lon": -47.8738,
+   "altitude_ft": 36000,
+   "heading": 355,
+   "speed_kt": 450
+  },
+  {
+   "callsign": "PRBBP",
+   "lat": -23.7438,
+   "lon": -46.5872,
+   "altitude_ft": 43000,
+   "heading": 210,
+   "speed_kt": 404
+  },
+  {
+   "callsign": "AZU2435",
+   "lat": -15.8263,
+   "lon": -42.7375,
+   "altitude_ft": 36025,
+   "heading": 211,
+   "speed_kt": 450
+  },
+  {
+   "callsign": "GLO2089",
+   "lat": -24.8627,
+   "lon": -45.3135,
+   "altitude_ft": 39000,
+   "heading": 46,
+   "speed_kt": 516
+  },
+  {
+   "callsign": "AZU4013",
+   "lat": -16.8555,
+   "lon": -52.2874,
+   "altitude_ft": 37000,
+   "heading": 151,
+   "speed_kt": 473
+  },
+  {
+   "callsign": "AZU2742",
+   "lat": -21.2417,
+   "lon": -53.7974,
+   "altitude_ft": 22475,
+   "heading": 305,
+   "speed_kt": 334
+  },
+  {
+   "callsign": "AZU4101",
+   "lat": -3.5365,
+   "lon": -39.6545,
+   "altitude_ft": 18275,
+   "heading": 101,
+   "speed_kt": 340
+  },
+  {
+   "callsign": "GLO1513",
+   "lat": -23.2731,
+   "lon": -47.0735,
+   "altitude_ft": 12800,
+   "heading": 131,
+   "speed_kt": 285
+  },
+  {
+   "callsign": "PTOMZ",
+   "lat": -1.3955,
+   "lon": -48.4927,
+   "altitude_ft": 500,
+   "heading": 45,
+   "speed_kt": 98
+  },
+  {
+   "callsign": "TAM4541",
+   "lat": -23.1416,
+   "lon": -47.1165,
+   "altitude_ft": 16000,
+   "heading": 208,
+   "speed_kt": 293
+  },
+  {
+   "callsign": "TAM3762",
+   "lat": -22.8877,
+   "lon": -43.1645,
+   "altitude_ft": 300,
+   "heading": 174,
+   "speed_kt": 124
+  },
+  {
+   "callsign": "GLO1579",
+   "lat": -15.084,
+   "lon": -42.343,
+   "altitude_ft": 38000,
+   "heading": 201,
+   "speed_kt": 439
+  },
+  {
+   "callsign": "GLO2047",
+   "lat": -24.8211,
+   "lon": -47.083,
+   "altitude_ft": 25000,
+   "heading": 48,
+   "speed_kt": 440
+  },
+  {
+   "callsign": "GLO1636",
+   "lat": -17.9097,
+   "lon": -41.9719,
+   "altitude_ft": 37000,
+   "heading": 37,
+   "speed_kt": 471
+  },
+  {
+   "callsign": "GLO1319",
+   "lat": -23.2202,
+   "lon": -47.1131,
+   "altitude_ft": 11025,
+   "heading": 168,
+   "speed_kt": 245
+  },
+  {
+   "callsign": "GLO7644",
+   "lat": -28.3543,
+   "lon": -50.5559,
+   "altitude_ft": 35975,
+   "heading": 228,
+   "speed_kt": 388
+  },
+  {
+   "callsign": "TAM3443",
+   "lat": -20.9863,
+   "lon": -45.9331,
+   "altitude_ft": 34000,
+   "heading": 205,
+   "speed_kt": 423
+  },
+  {
+   "callsign": "TAM3195",
+   "lat": -11.9046,
+   "lon": -43.6884,
+   "altitude_ft": 34000,
+   "heading": 160,
+   "speed_kt": 455
+  },
+  {
+   "callsign": "AZU2433",
+   "lat": -26.4024,
+   "lon": -47.9738,
+   "altitude_ft": 38975,
+   "heading": 36,
+   "speed_kt": 487
+  },
+  {
+   "callsign": "TAM3824",
+   "lat": -23.3918,
+   "lon": -46.1655,
+   "altitude_ft": 19950,
+   "heading": 334,
+   "speed_kt": 299
+  },
+  {
+   "callsign": "GLO1416",
+   "lat": -23.1549,
+   "lon": -47.0967,
+   "altitude_ft": 24250,
+   "heading": 348,
+   "speed_kt": 371
+  },
+  {
+   "callsign": "GLO1573",
+   "lat": -11.1788,
+   "lon": -55.6066,
+   "altitude_ft": 37000,
+   "heading": 150,
+   "speed_kt": 467
+  },
+  {
+   "callsign": "TAM8121",
+   "lat": -22.8894,
+   "lon": -46.5699,
+   "altitude_ft": 13650,
+   "heading": 184,
+   "speed_kt": 317
+  },
+  {
+   "callsign": "TAM3569",
+   "lat": -17.0236,
+   "lon": -54.3317,
+   "altitude_ft": 36975,
+   "heading": 128,
+   "speed_kt": 471
+  },
+  {
+   "callsign": "TAM3671",
+   "lat": -24.7875,
+   "lon": -48.2622,
+   "altitude_ft": 37000,
+   "heading": 12,
+   "speed_kt": 434
+  },
+  {
+   "callsign": "TAM3873",
+   "lat": -27.4227,
+   "lon": -48.851,
+   "altitude_ft": 37025,
+   "heading": 36,
+   "speed_kt": 480
+  },
+  {
+   "callsign": "e88168",
+   "lat": -23.6245,
+   "lon": -43.873,
+   "altitude_ft": 36150,
+   "heading": 238,
+   "speed_kt": 319
+  },
+  {
+   "callsign": "CMP765",
+   "lat": 3.58,
+   "lon": -73.2602,
+   "altitude_ft": 35000,
+   "heading": 129,
+   "speed_kt": 464
+  },
+  {
+   "callsign": "GLO1316",
+   "lat": -20.8546,
+   "lon": -44.6179,
+   "altitude_ft": 29000,
+   "heading": 36,
+   "speed_kt": 467
+  },
+  {
+   "callsign": "TAM3269",
+   "lat": -16.4273,
+   "lon": -55.1874,
+   "altitude_ft": 25775,
+   "heading": 127,
+   "speed_kt": 491
+  },
+  {
+   "callsign": "CCDPF",
+   "lat": -33.381,
+   "lon": -70.5836,
+   "altitude_ft": 2300,
+   "heading": 260,
+   "speed_kt": 40
+  },
+  {
+   "callsign": "AVR5232",
+   "lat": 5.9928,
+   "lon": -73.5265,
+   "altitude_ft": 27850,
+   "heading": 53,
+   "speed_kt": 403
+  },
+  {
+   "callsign": "DAE925",
+   "lat": 5.6878,
+   "lon": -63.0901,
+   "altitude_ft": 33000,
+   "heading": 151,
+   "speed_kt": 469
+  },
+  {
+   "callsign": "BOV777",
+   "lat": -4.5674,
+   "lon": -47.8763,
+   "altitude_ft": 40000,
+   "heading": 228,
+   "speed_kt": 484
+  }
+ ]
+}

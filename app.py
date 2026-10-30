@@ -3,6 +3,7 @@ from flask import Flask, jsonify, render_template, request
 
 from radar.bands import group_by_band, scan
 from radar.generator import generate_traffic, load_snapshot
+from radar.benchmark import run_benchmark
 from radar.closest_pair import closest_pair
 from radar.geo import project
 
@@ -39,6 +40,11 @@ def api_steps():
     points = [project(plane["lat"], plane["lon"]) for plane in planes]
     result = closest_pair(points, trace=True)
     return jsonify(flight_level=level, points=points, steps=result.steps)
+
+
+@app.route("/api/benchmark")
+def api_benchmark():
+    return jsonify(rows=run_benchmark())
 
 
 if __name__ == "__main__":

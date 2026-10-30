@@ -44,3 +44,13 @@ tbody tr[data-index]:hover { background: var(--surface-2); }
 .step-buttons { display: flex; gap: 8px; margin-bottom: 12px; }
 #step-range { width: 100%; }
 .steps-view .side p { min-height: 90px; }
+#tab-benchmark.active { display: block; height: auto; }
+.benchmark { position: relative; max-width: 860px; margin: 0 auto; padding: 20px 16px; }
+.note { margin: 0 0 12px; color: var(--muted); font-size: 13px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 14px 0 6px; color: var(--muted); font-size: 13px; }
+.swatch { display: inline-block; width: 10px; height: 10px; margin-right: 6px; border-radius: 3px; }
+.swatch.divide { background: var(--accent); }
+.swatch.brute { background: var(--brute); }
+.chart svg { display: block; width: 100%; height: auto; }
+.tooltip { position: absolute; z-index: 5; padding: 6px 9px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); font-size: 13px; white-space: nowrap; pointer-events: none; }
+#benchmark-table { margin-top: 18px; }

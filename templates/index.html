@@ -13,6 +13,7 @@
     <nav class="tabs">
       <button class="tab active" data-tab="radar">Radar</button>
       <button class="tab" data-tab="steps">Passo a passo</button>
+      <button class="tab" data-tab="benchmark">Benchmark</button>
     </nav>
   </header>
 
@@ -58,11 +59,30 @@
         </aside>
       </div>
     </section>
+
+    <section id="tab-benchmark" class="panel">
+      <div class="benchmark">
+        <h2>Tempo por número de pontos</h2>
+        <p class="note">Eixos em escala logarítmica. Pontos uniformes, melhor tempo de 3 execuções.</p>
+        <button id="run-benchmark">Executar benchmark</button>
+        <div id="legend" class="legend" hidden>
+          <span><i class="swatch divide"></i>Dividir e conquistar, O(n log n)</span>
+          <span><i class="swatch brute"></i>Força bruta, O(n²)</span>
+        </div>
+        <div id="chart" class="chart"></div>
+        <div id="tooltip" class="tooltip" hidden></div>
+        <table id="benchmark-table" hidden>
+          <thead><tr><th>n</th><th>D&amp;C (ms)</th><th>Bruta (ms)</th><th>Comparações D&amp;C</th><th>Comparações bruta</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
   </main>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="{{ url_for('static', filename='js/tabs.js') }}"></script>
   <script src="{{ url_for('static', filename='js/radar.js') }}"></script>
   <script src="{{ url_for('static', filename='js/steps.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/benchmark.js') }}"></script>
 </body>
 </html>

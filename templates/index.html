@@ -12,6 +12,7 @@
     <h1>Radar de Conflitos Aéreos</h1>
     <nav class="tabs">
       <button class="tab active" data-tab="radar">Radar</button>
+      <button class="tab" data-tab="steps">Passo a passo</button>
     </nav>
   </header>
 
@@ -41,10 +42,27 @@
         </table>
       </aside>
     </section>
+
+    <section id="tab-steps" class="panel">
+      <div class="steps-view">
+        <svg id="steps-svg" viewBox="0 0 800 520" role="img" aria-label="Pontos da faixa e etapa atual do algoritmo"></svg>
+        <aside class="side">
+          <h2 id="step-title">Etapa</h2>
+          <p id="step-text"></p>
+          <div class="step-buttons">
+            <button id="step-prev">Anterior</button>
+            <button id="step-next">Próxima</button>
+            <button id="step-play">Reproduzir</button>
+          </div>
+          <input id="step-range" type="range" min="0" value="0" aria-label="Etapa">
+        </aside>
+      </div>
+    </section>
   </main>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="{{ url_for('static', filename='js/tabs.js') }}"></script>
   <script src="{{ url_for('static', filename='js/radar.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/steps.js') }}"></script>
 </body>
 </html>

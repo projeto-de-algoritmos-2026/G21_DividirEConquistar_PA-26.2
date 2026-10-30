@@ -6,8 +6,11 @@ from radar.result import PairResult
 BASE_CASE_SIZE = 3
 
 
-def closest_pair(points):
-    """Retorna o par mais próximo de `points`, uma sequência de pontos (x, y)."""
+def closest_pair(points, trace=False):
+    """Retorna o par mais próximo de `points`, uma sequência de pontos (x, y).
+
+    Com `trace=True`, registra em `steps` as etapas da recursão.
+    """
     if len(points) < 2:
         raise ValueError("são necessários ao menos 2 pontos")
 
@@ -29,10 +32,14 @@ def closest_pair(points):
             for a in range(low, high):
                 for b in range(a + 1, high):
                     compare(by_x[a], by_x[b])
+            if trace:
+                record("base", low, high, depth)
             return
 
         middle = (low + high) // 2
         middle_x = points[by_x[middle]][0]
+        if trace:
+            record("divide", low, high, depth, middle_x=middle_x)
         left_ys = [p for p in ys if rank[p] < middle]
         right_ys = [p for p in ys if rank[p] >= middle]
         solve(low, middle, left_ys, depth + 1)
@@ -46,6 +53,21 @@ def closest_pair(points):
                 if points[b][1] - points[a][1] >= result.distance:
                     break
                 compare(a, b)
+        if trace:
+            record("combine", low, high, depth, middle_x=middle_x, strip=strip)
+
+    def record(kind, low, high, depth, middle_x=None, strip=()):
+        result.steps.append({
+            "kind": kind,
+            "low_x": points[by_x[low]][0],
+            "high_x": points[by_x[high - 1]][0],
+            "size": high - low,
+            "depth": depth,
+            "middle_x": middle_x,
+            "strip": list(strip),
+            "best": [result.i, result.j],
+            "distance": result.distance if result.i >= 0 else None,
+        })
 
     solve(0, len(points), by_y, 0)
     return result

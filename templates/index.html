@@ -10,6 +10,41 @@
 <body>
   <header class="topbar">
     <h1>Radar de Conflitos Aéreos</h1>
+    <nav class="tabs">
+      <button class="tab active" data-tab="radar">Radar</button>
+    </nav>
   </header>
+
+  <section class="controls">
+    <label>Fonte
+      <select id="source">
+        <option value="sim">Simulação</option>
+        <option value="opensky">Snapshot real (OpenSky)</option>
+      </select>
+    </label>
+    <label class="sim-only">Aeronaves <input id="count" type="number" min="2" max="3000" value="400"></label>
+    <label class="sim-only">Seed <input id="seed" type="number" value="21"></label>
+    <label class="sim-only time">Tempo: <output id="minutes-label">0 min</output>
+      <input id="minutes" type="range" min="0" max="120" value="0">
+    </label>
+    <button id="play" class="sim-only">Reproduzir</button>
+  </section>
+
+  <main>
+    <section id="tab-radar" class="panel active">
+      <div id="map"></div>
+      <aside class="side">
+        <p id="summary" class="summary"></p>
+        <table>
+          <thead><tr><th>Nível</th><th>Aeronaves</th><th>Par mais próximo</th><th>Distância</th></tr></thead>
+          <tbody id="bands"></tbody>
+        </table>
+      </aside>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="{{ url_for('static', filename='js/tabs.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/radar.js') }}"></script>
 </body>
 </html>

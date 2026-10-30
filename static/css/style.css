@@ -14,3 +14,27 @@ body { margin: 0; background: var(--surface); color: var(--text); font: 15px/1.4
 h1 { margin: 0; font-size: 19px; }
 h2 { margin: 0 0 8px; font-size: 16px; }
 .topbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+.tabs { display: flex; gap: 4px; }
+button { padding: 7px 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-2); color: var(--text); font: inherit; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+.tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.controls { display: flex; flex-wrap: wrap; align-items: end; gap: 10px 16px; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+label { display: flex; flex-direction: column; gap: 3px; color: var(--muted); font-size: 13px; }
+label.time { min-width: 200px; display: block; }
+label.time input { display: block; width: 100%; }
+input[type=number], select { padding: 6px 8px; width: 110px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-2); color: var(--text); font: inherit; }
+select { width: auto; }
+.panel { display: none; }
+.panel.active { display: grid; grid-template-columns: minmax(0, 1fr) 420px; height: calc(100vh - 118px); min-height: 480px; }
+#map { height: 100%; background: var(--surface-2); }
+.leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9); }
+.side { padding: 14px 16px; overflow: auto; border-left: 1px solid var(--border); }
+.summary { margin: 0 0 12px; }
+.summary.alerting { color: var(--critical); font-weight: 600; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; color: var(--muted); font-weight: 500; }
+th, td { padding: 6px 8px 6px 0; border-bottom: 1px solid var(--border); }
+tr.alert td { color: var(--critical); font-weight: 600; }
+tbody tr[data-index] { cursor: pointer; }
+tbody tr[data-index]:hover { background: var(--surface-2); }
+.conflict-label { padding: 2px 6px; border: 1px solid var(--critical); border-radius: 4px; background: var(--surface); color: var(--text); font-size: 12px; white-space: nowrap; }

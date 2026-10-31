@@ -54,3 +54,9 @@ tbody tr[data-index]:hover { background: var(--surface-2); }
 .chart svg { display: block; width: 100%; height: auto; }
 .tooltip { position: absolute; z-index: 5; padding: 6px 9px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); font-size: 13px; white-space: nowrap; pointer-events: none; }
 #benchmark-table { margin-top: 18px; }
+
+@media (max-width: 900px) {
+  .panel.active, .steps-view { grid-template-columns: minmax(0, 1fr); height: auto; }
+  #map, #steps-svg { height: 58vh; }
+  .side { border-left: 0; border-top: 1px solid var(--border); }
+}

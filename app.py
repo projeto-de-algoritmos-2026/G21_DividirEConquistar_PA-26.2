@@ -8,6 +8,8 @@ from radar.closest_pair import closest_pair
 from radar.geo import project
 
 app = Flask(__name__)
+MAX_AIRCRAFT = 3000
+MAX_MINUTES = 240
 
 
 @app.route("/")
@@ -15,13 +17,19 @@ def index():
     return render_template("index.html")
 
 
+def int_arg(name, default, low, high):
+    """Lê um inteiro da query string, limitado ao intervalo aceito."""
+    value = request.args.get(name, default, type=int)
+    return max(low, min(high, value))
+
+
 def load_traffic():
     if request.args.get("source") == "opensky":
         return load_snapshot()
     return generate_traffic(
-        request.args.get("n", 400, type=int),
+        int_arg("n", 400, 2, MAX_AIRCRAFT),
         request.args.get("seed", 21, type=int),
-        request.args.get("minutes", 0, type=int),
+        int_arg("minutes", 0, 0, MAX_MINUTES),
     )
 
 
@@ -37,6 +45,8 @@ def api_steps():
     bands = group_by_band(load_traffic())
     level, planes = max(bands.items(), key=lambda band: len(band[1]))
     planes = planes[:64]
+    if len(planes) < 2:
+        return jsonify(error="nenhuma faixa tem duas aeronaves"), 400
     points = [project(plane["lat"], plane["lon"]) for plane in planes]
     result = closest_pair(points, trace=True)
     return jsonify(flight_level=level, points=points, steps=result.steps)

@@ -18,6 +18,7 @@ const controls = {
 };
 let lastBands = [];
 let playTimer = null;
+let latestRequest = 0;
 
 function trafficQuery() {
   return new URLSearchParams({
@@ -78,13 +79,19 @@ function renderSummary(aircraft, bands) {
   const comparisons = bands.reduce((total, band) => total + band.comparisons, 0);
   const summary = document.getElementById("summary");
   summary.classList.toggle("alerting", alerts > 0);
+  if (bands.length === 0) {
+    summary.textContent = `${aircraft.length} aeronaves, nenhuma faixa com duas ou mais.`;
+    return;
+  }
   summary.textContent = `${alerts ? `⚠ ${alerts} conflito(s)` : "Sem conflitos"} · `
     + `${aircraft.length} aeronaves · ${comparisons.toLocaleString("pt-BR")} comparações`;
 }
 
 async function refresh() {
+  const request = ++latestRequest;
   const response = await fetch(`/api/scan?${trafficQuery()}`);
   const { aircraft, bands } = await response.json();
+  if (request !== latestRequest) return;  // resposta antiga chegou depois da nova
   drawAircraft(aircraft);
   drawAlerts(bands);
   renderTable(bands);

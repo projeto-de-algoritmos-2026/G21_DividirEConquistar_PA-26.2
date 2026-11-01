@@ -8,8 +8,6 @@
 ![Flask](https://img.shields.io/badge/flask-3-black)
 ![Testes](https://img.shields.io/badge/testes-55%20passing-success)
 
-Repositório: `projeto-de-algoritmos-2026/G21_DividirEConquistar_PA-26.2`
-
 </div>
 
 ---
@@ -52,7 +50,7 @@ Medidos em Python 3.14 com pontos uniformes, melhor tempo de 3 execuções:
 
 Os tempos variam conforme a máquina. A contagem conta apenas cálculos de distância: a diferença de tempo é menor que a de comparações porque o D&C também gasta tempo ordenando e particionando.
 
-## ⚠️ Limitações
+## 📝 Observações
 
 - **Precisão da projeção:** a projeção é fiel perto da latitude 15°S. No extremo sul do país, distâncias leste-oeste ficam superestimadas em cerca de 16%, então o par escolhido pode não ser o mais próximo na esfera, embora a distância exibida seja a real.
 - **Níveis de voo:** o arredondamento para FL deixa de fora aeronaves em subida ou descida perto do limite entre dois níveis.
@@ -101,7 +99,3 @@ Link do vídeo: *a adicionar*
 | Gustavo Costa | [@cwtshh](https://github.com/cwtshh) |
 | Jesus Gabriel Carvalho Ventura | [@xGabrielCv](https://github.com/xGabrielCv) |
 
-## 📚 Referências
-
-- KLEINBERG, J.; TARDOS, É. *Algorithm Design*. Pearson, 2005. Seção 5.4.
-- Dados de tráfego: [OpenSky Network](https://opensky-network.org).

@@ -8,4 +8,7 @@ class PairResult:
     i: int
     j: int
     comparisons: int = 0
+    calls: int = 0
+    max_depth: int = 0
     steps: list = field(default_factory=list)
+    tree: list = field(default_factory=list)

@@ -1,4 +1,31 @@
-__pycache__/
-*.pyc
+# Ambiente e caches do Python
 .venv/
+__pycache__/
+*.py[co]
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+node_modules/
+
+# Saídas dos testes de interface (Playwright)
+test-results/
+playwright-report/
+*.trace.zip
+
+# Arquivos temporários e de editor
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Segredos locais
+.env
+.env.*
+
+# Script local de preparação dos commits (fica só nesta máquina)
+scripts/publicar_5_commits.ps1

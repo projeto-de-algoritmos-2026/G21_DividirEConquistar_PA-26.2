@@ -1,99 +1,147 @@
-const CHART = { width: 820, height: 380, left: 78, right: 24, top: 16, bottom: 48 };
-const SERIES = [
-  { key: "divide_ms", label: "Dividir e conquistar", color: "#3987e5" },
-  { key: "brute_ms", label: "Força bruta", color: "#d95926" },
-];
-const runButton = document.getElementById("run-benchmark");
+// Benchmark: tamanhos configuráveis, repetições, mediana/dispersão, gráficos e exportação.
+import { ApiError, api, clear, download, el, fmt, fmtMs, isAbort, readInt, setBusy, showError, sortableTable } from "./core.js";
+import { algorithmById, getCatalog } from "./catalog.js";
+import { logLogChart } from "./chart.js";
+import { PIVOT_LABELS } from "./lab.js";
 
-const log10Scale = (min, max, from, to) => (value) =>
-  from + (Math.log10(value) - Math.log10(min)) / (Math.log10(max) - Math.log10(min)) * (to - from);
+const $ = (id) => document.getElementById(id);
+let catalog = null;
+let report = null;
 
-function powerTicks(min, max) {
-  const ticks = [];
-  for (let exponent = Math.floor(Math.log10(min)); 10 ** exponent <= max * 1.001; exponent += 1) {
-    if (10 ** exponent >= min / 1.001) ticks.push(10 ** exponent);
+function syncControls() {
+  const id = $("bench-algorithm").value;
+  const scenarios = id === "closest_pair" ? catalog.point_scenarios : catalog.array_scenarios;
+  const previous = $("bench-scenario").value;
+  $("bench-scenario").replaceChildren(...Object.entries(scenarios).map(([key, text]) => el("option", { value: key, text })));
+  $("bench-scenario").value = scenarios[previous] ? previous : "aleatorio";
+  const pivots = catalog.pivots[id];
+  document.querySelector(".bench-pivot").hidden = !pivots;
+  if (pivots) {
+    $("bench-pivot").replaceChildren(...pivots.map((p) => el("option", { value: p, text: PIVOT_LABELS[p] })));
+    $("bench-pivot").value = id === "quick_sort" ? "ultimo" : "aleatorio";
   }
-  return ticks;
+  const l = catalog.limits;
+  $("bench-limits").textContent = `Limites: até ${l.bench_max_sizes} tamanhos e ${l.bench_max_repeats} repetições; n até ${fmt(l.bench_max_n)} (3.000 quando o próprio algoritmo pode degradar para Θ(n²), como Quick Sort com pivô fixo ou muitos iguais); referência Θ(n²) só até n = ${fmt(l.reference_max_n)}; orçamento total de 20 s — tamanhos além dele aparecem como não executados.`;
 }
 
-function drawChart(rows) {
-  const times = rows.flatMap((row) => SERIES.map((series) => row[series.key]));
-  const yMin = 10 ** Math.floor(Math.log10(Math.min(...times)));
-  const yMax = 10 ** Math.ceil(Math.log10(Math.max(...times)));
-  const x = log10Scale(rows[0].n, rows[rows.length - 1].n, CHART.left, CHART.width - CHART.right);
-  const y = log10Scale(yMin, yMax, CHART.height - CHART.bottom, CHART.top);
-  const parts = [];
+function readSizes() {
+  const parts = $("bench-sizes").value.split(/[\s,;]+/).filter(Boolean);
+  const sizes = parts.map(Number);
+  const ok = sizes.length >= 1 && sizes.length <= catalog.limits.bench_max_sizes && sizes.every((n) => Number.isInteger(n) && n >= 1);
+  $("bench-sizes").setAttribute("aria-invalid", ok ? "false" : "true");
+  if (!ok) throw new ApiError(`Tamanhos: de 1 a ${catalog.limits.bench_max_sizes} inteiros positivos separados por vírgula.`);
+  return sizes;
+}
 
-  powerTicks(yMin, yMax).forEach((tick) => {
-    parts.push(`<line x1="${CHART.left}" x2="${CHART.width - CHART.right}" y1="${y(tick)}" y2="${y(tick)}" stroke="#2c363c"/>`);
-    parts.push(`<text x="${CHART.left - 10}" y="${y(tick) + 4}" text-anchor="end" fill="#a9b1b5" font-size="12">${tick.toLocaleString("pt-BR")} ms</text>`);
-  });
-  rows.forEach((row) => {
-    parts.push(`<text x="${x(row.n)}" y="${CHART.height - CHART.bottom + 22}" text-anchor="middle" fill="#a9b1b5" font-size="12">${row.n}</text>`);
-  });
-  parts.push(`<text x="${(CHART.left + CHART.width - CHART.right) / 2}" y="${CHART.height - 6}" text-anchor="middle" fill="#a9b1b5" font-size="12">Número de pontos (n)</text>`);
-
-  SERIES.forEach((series) => {
-    const path = rows.map((row) => `${x(row.n)},${y(row[series.key])}`).join(" ");
-    parts.push(`<polyline points="${path}" fill="none" stroke="${series.color}" stroke-width="2"/>`);
-    rows.forEach((row) => {
-      const cx = x(row.n);
-      const cy = y(row[series.key]);
-      parts.push(`<circle cx="${cx}" cy="${cy}" r="4" fill="${series.color}" stroke="#0f1417" stroke-width="2"/>`);
-      parts.push(`<circle class="hit" cx="${cx}" cy="${cy}" r="14" fill="transparent"
-        data-label="${series.label}" data-n="${row.n}" data-value="${row[series.key].toFixed(2)}"/>`);
+async function run() {
+  const form = $("bench-form");
+  showError($("bench-error"), null);
+  let params;
+  try {
+    params = new URLSearchParams({
+      algorithm: $("bench-algorithm").value,
+      scenario: $("bench-scenario").value,
+      sizes: readSizes().join(","),
+      repeats: readInt($("bench-repeats"), "Repetições"),
+      seed: readInt($("bench-seed"), "Seed"),
+      warmup: $("bench-warmup").checked ? "1" : "0",
     });
-  });
-
-  SERIES.forEach((series) => {
-    parts.push(`<text x="${x(rows[1].n)}" y="${y(rows[1][series.key]) - 12}" text-anchor="middle" fill="#f0efec" font-size="12">${series.label}</text>`);
-  });
-
-  const last = rows[rows.length - 1];
-  const ratio = Math.round(last.brute_ms / last.divide_ms);
-  parts.push(`<text x="${x(last.n) - 8}" y="${y(last.brute_ms) - 12}" text-anchor="end" fill="#f0efec" font-size="13">${ratio}× mais lenta em n = ${last.n}</text>`);
-
-  document.getElementById("chart").innerHTML =
-    `<svg viewBox="0 0 ${CHART.width} ${CHART.height}" role="img" aria-label="Tempo de execução por número de pontos, em escala logarítmica">${parts.join("")}</svg>`;
+    if (catalog.pivots[params.get("algorithm")]) params.set("pivot", $("bench-pivot").value);
+  } catch (error) {
+    showError($("bench-error"), error);
+    return;
+  }
+  setBusy(form, true, "Medindo… (até 20 s)");
+  $("bench-result").classList.add("loading");
+  try {
+    report = await api(`/api/benchmark?${params}`, { key: "bench" });
+    render();
+  } catch (error) {
+    if (!isAbort(error)) showError($("bench-error"), error);
+  } finally {
+    setBusy(form, false);
+    $("bench-result").classList.remove("loading");
+  }
 }
 
-function drawTable(rows) {
-  const table = document.getElementById("benchmark-table");
-  table.hidden = false;
-  table.querySelector("tbody").innerHTML = rows.map((row) => `
-    <tr>
-      <td>${row.n}</td>
-      <td>${row.divide_ms.toFixed(2)}</td>
-      <td>${row.brute_ms.toFixed(2)}</td>
-      <td>${row.divide_comparisons.toLocaleString("pt-BR")}</td>
-      <td>${row.brute_comparisons.toLocaleString("pt-BR")}</td>
-    </tr>`).join("");
+function refName() {
+  return report.rows.find((row) => row.reference)?.reference.name || "Referência";
 }
 
-runButton.addEventListener("click", async () => {
-  runButton.disabled = true;
-  runButton.textContent = "Executando…";
-  const { rows } = await (await fetch("/api/benchmark")).json();
-  drawChart(rows);
-  drawTable(rows);
-  document.getElementById("legend").hidden = false;
-  runButton.disabled = false;
-  runButton.textContent = "Executar novamente";
-});
+function render() {
+  const info = algorithmById(catalog, report.algorithm);
+  const rows = report.rows;
+  const dcLabel = `${info.name} (D&C)`;
+  const series = (key, pick) => [
+    { label: dcLabel, className: "series-dc", points: rows.filter((r) => r.dc).map((r) => pick(r.dc, r)) },
+    { label: refName(), className: "series-ref", points: rows.filter((r) => r.reference).map((r) => pick(r.reference, r)) },
+  ];
+  const env = report.environment;
+  const table = sortableTable({
+    caption: `Unidade de operações: ${report.unit}`,
+    columns: [
+      { key: "n", label: "n", num: true, value: (r) => r.n, render: (r) => fmt(r.n) },
+      { key: "dc", label: "D&C mediana", num: true, value: (r) => r.dc?.median_ms ?? null, render: (r) => (r.dc ? fmtMs(r.dc.median_ms) : "não executado") },
+      { key: "dcspread", label: "mín – máx (desvio)", value: (r) => r.dc?.stdev_ms ?? null, render: (r) => (r.dc ? `${fmtMs(r.dc.min_ms)} – ${fmtMs(r.dc.max_ms)} (${fmtMs(r.dc.stdev_ms)})` : "—") },
+      { key: "ref", label: "Ref. mediana", num: true, value: (r) => r.reference?.median_ms ?? null, render: (r) => (r.reference ? fmtMs(r.reference.median_ms) : "não executada") },
+      { key: "dcops", label: "Operações D&C", num: true, value: (r) => r.dc?.comparisons ?? null, render: (r) => (r.dc ? fmt(r.dc.comparisons) : "—") },
+      { key: "refops", label: "Operações ref.", num: true, value: (r) => r.reference?.comparisons ?? null, render: (r) => (r.reference ? fmt(r.reference.comparisons) : "—") },
+      { key: "ok", label: "Confere", value: (r) => r.dc?.verified ?? null, render: (r) => {
+        if (!r.dc) return "—";
+        if (r.dc.verified === null) return el("span", { class: "badge neutral", title: "sem referência neste n", text: "n/d" });
+        return el("span", { class: `badge ${r.dc.verified ? "ok" : "bad"}`, text: r.dc.verified ? "✓" : "✗" });
+      } },
+      { key: "note", label: "Observação", value: (r) => r.skipped || r.reference_skipped || "", render: (r) => r.skipped || r.reference_skipped || "" },
+    ],
+  });
+  table.update(rows);
+  clear($("bench-result")).append(
+    el("div", { class: "grid-2" },
+      logLogChart({
+        title: "Tempo mediano", yLabel: "ms (mediana; barra = mín–máx)", format: (v) => fmtMs(v),
+        series: series("ms", (m, r) => ({ x: r.n, y: m.median_ms, low: m.min_ms, high: m.max_ms })),
+      }),
+      logLogChart({
+        title: "Operações", yLabel: report.unit, format: (v) => fmt(v),
+        series: series("ops", (m, r) => ({ x: r.n, y: m.comparisons })),
+      })),
+    el("div", { class: "table-wrap", style: { marginTop: "12px" } }, table.element),
+    el("p", { class: "small muted", style: { marginTop: "8px" }, text: `Cenário: ${report.scenario} · seed ${report.seed} · ${report.repeats} repetição(ões)${report.warmup ? " + aquecimento" : ""}${report.params.pivot ? ` · pivô ${PIVOT_LABELS[report.params.pivot]}` : ""}. Ambiente: ${env.implementation} ${env.python}, ${env.platform}, ${env.cpus} CPU(s), ${env.date}.` }),
+    el("div", { class: "segmented", style: { marginTop: "8px" } },
+      el("button", { type: "button", text: "⬇ Exportar CSV", onclick: exportCsv }),
+      el("button", { type: "button", text: "⬇ Exportar JSON", onclick: () => download(`benchmark-${report.algorithm}.json`, JSON.stringify(report, null, 2), "application/json") })),
+  );
+}
 
-document.addEventListener("tabchange", (event) => {
-  // O benchmark usa pontos próprios, então os controles de tráfego não se aplicam.
-  document.querySelector(".controls").style.display = event.detail === "benchmark" ? "none" : "";
-});
+function exportCsv() {
+  const header = ["algorithm", "scenario", "seed", "n", "dc_median_ms", "dc_min_ms", "dc_max_ms", "dc_stdev_ms", "dc_operations",
+    "dc_verified", "reference", "ref_median_ms", "ref_min_ms", "ref_max_ms", "ref_stdev_ms", "ref_operations", "note"];
+  const cell = (value) => {
+    const text = value === null || value === undefined ? "" : String(value);
+    return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+  };
+  const lines = [header.join(",")];
+  for (const r of report.rows) {
+    lines.push([report.algorithm, report.scenario, report.seed, r.n,
+      r.dc?.median_ms, r.dc?.min_ms, r.dc?.max_ms, r.dc?.stdev_ms, r.dc?.comparisons, r.dc?.verified,
+      r.reference?.name, r.reference?.median_ms, r.reference?.min_ms, r.reference?.max_ms, r.reference?.stdev_ms,
+      r.reference?.comparisons, r.skipped || r.reference_skipped].map(cell).join(","));
+  }
+  download(`benchmark-${report.algorithm}.csv`, `${lines.join("\n")}\n`, "text/csv");
+}
 
-const tooltip = document.getElementById("tooltip");
-document.getElementById("chart").addEventListener("mousemove", (event) => {
-  const hit = event.target.closest(".hit");
-  tooltip.hidden = !hit;
-  if (!hit) return;
-  const box = tooltip.parentElement.getBoundingClientRect();
-  tooltip.textContent = `${hit.dataset.label}: ${hit.dataset.value} ms (n = ${hit.dataset.n})`;
-  const left = event.clientX - box.left + 14;
-  tooltip.style.left = `${Math.min(left, box.width - tooltip.offsetWidth - 8)}px`;
-  tooltip.style.top = `${event.clientY - box.top + 14}px`;
-});
+export async function init() {
+  try {
+    catalog = await getCatalog();
+  } catch (error) {
+    showError($("bench-error"), error);
+    return;
+  }
+  $("bench-algorithm").replaceChildren(...catalog.algorithms.map((a) => el("option", { value: a.id, text: a.name })));
+  $("bench-algorithm").addEventListener("change", syncControls);
+  $("bench-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    run();
+  });
+  syncControls();
+}

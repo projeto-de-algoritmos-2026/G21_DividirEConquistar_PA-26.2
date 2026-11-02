@@ -3,86 +3,538 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Radar de Conflitos Aéreos</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <meta name="description" content="Laboratório didático de algoritmos de dividir e conquistar com um radar simulado de proximidade entre aeronaves.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%88%3C/text%3E%3C/svg%3E">
+  <title>Radar de Conflitos Aéreos — Laboratório D&amp;C</title>
+  <script>
+    // Aplica o tema antes de pintar a página, para não piscar.
+    (function () {
+      var theme = null;
+      try { theme = localStorage.getItem("theme"); } catch (error) { /* armazenamento bloqueado */ }
+      if (!theme) theme = window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
   <header class="topbar">
-    <h1>Radar de Conflitos Aéreos</h1>
-    <nav class="tabs">
-      <button class="tab active" data-tab="radar">Radar</button>
-      <button class="tab" data-tab="steps">Passo a passo</button>
-      <button class="tab" data-tab="benchmark">Benchmark</button>
+    <a class="brand" href="#visao-geral">
+      <span class="brand-mark" aria-hidden="true">✈</span>
+      <span class="brand-text">
+        <strong>Radar de Conflitos Aéreos</strong>
+        <span>Laboratório de Dividir e Conquistar · PA 26.2</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="Seções">
+      <ul>
+        <li><a href="#visao-geral" data-view="visao-geral">Visão geral</a></li>
+        <li><a href="#radar" data-view="radar">Radar</a></li>
+        <li><a href="#visualizador" data-view="visualizador">Visualizador</a></li>
+        <li><a href="#laboratorio" data-view="laboratorio">Laboratório</a></li>
+        <li><a href="#comparacao" data-view="comparacao">Comparação</a></li>
+        <li><a href="#benchmarks" data-view="benchmarks">Benchmarks</a></li>
+        <li><a href="#teoria" data-view="teoria">Teoria</a></li>
+        <li><a href="#exercicios" data-view="exercicios">Exercícios</a></li>
+        <li><a href="#ajuda" data-view="ajuda">Ajuda</a></li>
+      </ul>
     </nav>
+    <button id="theme-toggle" class="theme-toggle icon" type="button" aria-label="Alternar tema claro/escuro">◐</button>
   </header>
 
-  <section class="controls">
-    <label>Fonte
-      <select id="source">
-        <option value="sim">Simulação</option>
-        <option value="opensky">Snapshot real (OpenSky)</option>
-      </select>
-    </label>
-    <label class="sim-only">Aeronaves <input id="count" type="number" min="2" max="3000" value="400"></label>
-    <label class="sim-only">Seed <input id="seed" type="number" value="21"></label>
-    <label class="sim-only time">Tempo: <output id="minutes-label">0 min</output>
-      <input id="minutes" type="range" min="0" max="120" value="0">
-    </label>
-    <button id="play" class="sim-only">Reproduzir</button>
-  </section>
+  <div id="announcer" class="sr-only" role="status" aria-live="polite"></div>
 
-  <main>
-    <section id="tab-radar" class="panel active">
-      <div id="map"></div>
-      <aside class="side">
-        <p id="summary" class="summary"></p>
-        <table>
-          <thead><tr><th>Nível</th><th>Aeronaves</th><th>Par mais próximo</th><th>Distância</th></tr></thead>
-          <tbody id="bands"></tbody>
-        </table>
-      </aside>
+  <main id="main" tabindex="-1">
+    <!-- ================= Visão geral ================= -->
+    <section id="view-visao-geral" data-view-panel="visao-geral" aria-labelledby="h-overview" hidden>
+      <div class="view-head overview-head">
+        <div>
+          <p class="kicker">Projeto de Algoritmos · Dividir e Conquistar</p>
+          <h2 id="h-overview">Visão geral</h2>
+          <p>Um radar de tráfego aéreo usa o <strong>par de pontos mais próximos</strong> em O(n log n) para achar, em cada faixa de altitude, as duas aeronaves mais próximas. Ao redor dele, um laboratório executa outros algoritmos de dividir e conquistar passo a passo, sempre conferidos com uma referência independente.</p>
+        </div>
+        <ul id="overview-status" class="status-list" aria-label="Estado do servidor e das fontes de dados" aria-live="polite">
+          <li class="status-pill"><span class="status-dot" aria-hidden="true"></span>Verificando servidor…</li>
+        </ul>
+      </div>
+
+      <section class="overview-block" aria-labelledby="h-overview-kpis">
+        <div class="block-head">
+          <h3 id="h-overview-kpis">Execução de referência</h3>
+          <p class="small muted"><span id="overview-kpi-caption">Varredura real com os parâmetros padrão do radar.</span> <a id="overview-radar-link" href="#radar?source=sim&amp;n=400&amp;seed=21&amp;minutes=0&amp;threshold_nm=5&amp;band_ft=1000">Abrir no radar →</a></p>
+        </div>
+        <div id="overview-kpis" class="cards kpi-grid" aria-live="polite"></div>
+      </section>
+
+      <section class="overview-block" aria-labelledby="h-overview-modules">
+        <div class="block-head">
+          <h3 id="h-overview-modules">Módulos</h3>
+        </div>
+        <ul class="module-grid">
+          <li><a class="module" href="#radar">
+            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 12l6-6"/></svg></span>
+            <strong>Radar</strong>
+            <span class="module-text">Mapa, filtros, limiar de 0,5 a 20 NM, faixas de altitude, simulação por seed ou snapshot histórico.</span>
+            <span class="module-meta">Par mais próximo por faixa · Θ(n log n)</span>
+          </a></li>
+          <li><a class="module" href="#visualizador">
+            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="6" cy="17" r="2"/><circle cx="18" cy="17" r="2"/><path d="M11 7l-4 8M13 7l4 8"/></svg></span>
+            <strong>Visualizador recursivo</strong>
+            <span class="module-text">Mediana, casos-base, faixa central ±δ, comparações e árvore de recursão, etapa por etapa.</span>
+            <span class="module-meta">7 casos didáticos · pontos próprios</span>
+          </a></li>
+          <li><a class="module" href="#laboratorio">
+            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/><path d="M7.5 14h9"/></svg></span>
+            <strong>Laboratório</strong>
+            <span class="module-text">Merge Sort, Quick Sort, Quickselect, inversões e subarray máximo, com pseudocódigo e verificação.</span>
+            <span class="module-meta">5 algoritmos · 8 cenários</span>
+          </a></li>
+          <li><a class="module" href="#comparacao">
+            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+            <strong>Comparação</strong>
+            <span class="module-text">Os seis algoritmos contra suas referências na mesma entrada: tempo, operações e verificação.</span>
+            <span class="module-meta">D&amp;C × referência</span>
+          </a></li>
+          <li><a class="module" href="#benchmarks">
+            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M6 16l4-5 4 3 5-7"/></svg></span>
+            <strong>Benchmarks</strong>
+            <span class="module-text">Tamanhos configuráveis, repetições, mediana e dispersão em gráficos log-log.</span>
+            <span class="module-meta">Exporta CSV e JSON</span>
+          </a></li>
+          <li><a class="module" href="#teoria">
+            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M8 7h7M8 11h7"/></svg></span>
+            <strong>Teoria</strong>
+            <span class="module-text">Recorrências, Teorema Mestre, invariantes de corretude e limitações de cada algoritmo.</span>
+            <span class="module-meta">Complexidade e pseudocódigo</span>
+          </a></li>
+          <li><a class="module" href="#exercicios">
+            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12l3 3 5-6"/></svg></span>
+            <strong>Exercícios</strong>
+            <span class="module-text">Inversões, soma máxima, k-ésimo menor e Teorema Mestre, gerados por seed e corrigidos no servidor.</span>
+            <span class="module-meta">4 tipos de desafio</span>
+          </a></li>
+          <li><a class="module" href="#ajuda">
+            <span class="module-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg></span>
+            <strong>Ajuda</strong>
+            <span class="module-text">Atalhos de teclado, fontes de dados, o que o radar calcula e limites de execução.</span>
+            <span class="module-meta">Referência rápida</span>
+          </a></li>
+        </ul>
+      </section>
+
+      <div class="overview-block grid-2">
+        <section class="panel" aria-labelledby="h-overview-dc">
+          <h3 id="h-overview-dc">Como o radar divide e conquista</h3>
+          <ol class="dc-steps">
+            <li><span class="dc-tag">Dividir</span><span>Ordena os pontos da faixa por x e separa na mediana.</span></li>
+            <li><span class="dc-tag">Conquistar</span><span>Resolve cada metade; δ é a menor distância encontrada.</span></li>
+            <li><span class="dc-tag">Combinar</span><span>Só examina a faixa |x − x*| &lt; δ, com no máximo 7 vizinhos por ponto.</span></li>
+          </ol>
+          <p class="small muted">T(n) = 2T(n/2) + O(n) ⇒ Θ(n log n). O par do plano é depois certificado sobre a esfera.</p>
+        </section>
+        <section class="panel" aria-labelledby="h-overview-route">
+          <h3 id="h-overview-route">Roteiro sugerido</h3>
+          <ol class="route">
+            <li><span><a href="#radar">Radar</a> — escolha um cenário e selecione uma faixa na tabela.</span></li>
+            <li><span><a href="#visualizador">Visualizador</a> — acompanhe essa faixa pela recursão (botão “Ver passo a passo”).</span></li>
+            <li><span><a href="#laboratorio">Laboratório</a> — compare o mesmo padrão em ordenação, seleção e somas.</span></li>
+            <li><span><a href="#benchmarks">Benchmarks</a> — meça Θ(n log n) contra Θ(n²) na sua máquina.</span></li>
+          </ol>
+        </section>
+      </div>
     </section>
 
-    <section id="tab-steps" class="panel">
-      <div class="steps-view">
-        <svg id="steps-svg" viewBox="0 0 800 520" role="img" aria-label="Pontos da faixa e etapa atual do algoritmo"></svg>
-        <aside class="side">
-          <h2 id="step-title">Etapa</h2>
-          <p id="step-text"></p>
-          <div class="step-buttons">
-            <button id="step-prev">Anterior</button>
-            <button id="step-next">Próxima</button>
-            <button id="step-play">Reproduzir</button>
+    <!-- ================= Radar ================= -->
+    <section id="view-radar" data-view-panel="radar" aria-labelledby="h-radar" hidden>
+      <div class="view-head">
+        <div>
+          <h2 id="h-radar">Radar</h2>
+          <p>Em cada faixa de altitude com duas ou mais aeronaves, o par mais próximo sobre a esfera é calculado por dividir e conquistar no plano tangente e certificado por uma busca em grade.</p>
+        </div>
+      </div>
+      <form id="radar-form" class="panel toolbar" aria-label="Parâmetros do radar" novalidate>
+        <label class="field">Cenário
+          <select id="radar-preset">
+            <option value="">Personalizado</option>
+            <option value="padrao">Padrão (400 aeronaves)</option>
+            <option value="leve">Tráfego leve (100)</option>
+            <option value="denso">Tráfego denso (2.000)</option>
+            <option value="estrito">Limiar de 3 NM</option>
+            <option value="faixas500">Faixas de 500 ft</option>
+            <option value="snapshot">Snapshot histórico</option>
+          </select>
+        </label>
+        <label class="field">Fonte
+          <select id="radar-source" name="source">
+            <option value="sim">Simulação</option>
+            <option value="opensky">Snapshot histórico (OpenSky)</option>
+          </select>
+        </label>
+        <label class="field sim-only">Aeronaves (2–3000)
+          <input id="radar-n" name="n" type="number" min="2" max="3000" value="400" inputmode="numeric">
+        </label>
+        <label class="field sim-only">Seed
+          <input id="radar-seed" name="seed" type="number" min="0" max="2147483647" value="21" inputmode="numeric">
+        </label>
+        <label class="field">Limiar (NM)
+          <input id="radar-threshold" name="threshold_nm" type="number" min="0.5" max="20" step="0.5" value="5">
+        </label>
+        <label class="field">Faixa vertical
+          <select id="radar-band" name="band_ft">
+            <option value="500">500 ft</option>
+            <option value="1000" selected>1.000 ft</option>
+            <option value="2000">2.000 ft</option>
+          </select>
+        </label>
+        <label class="field inline"><input id="radar-allpairs" name="all_pairs" type="checkbox"> Listar todos os pares abaixo do limiar</label>
+        <div class="field sim-only minute-field">
+          <label for="radar-minutes">Minuto: <output id="radar-minutes-out" for="radar-minutes">0</output></label>
+          <input id="radar-minutes" name="minutes" type="range" min="0" max="240" value="0">
+        </div>
+        <div class="segmented sim-only" role="group" aria-label="Reprodução">
+          <button id="radar-play" type="button">▶ Reproduzir</button>
+          <button id="radar-restart" type="button">⟲ Reiniciar</button>
+          <label class="field inline">Velocidade
+            <select id="radar-speed" aria-label="Velocidade da reprodução">
+              <option value="1500">0,5×</option>
+              <option value="800" selected>1×</option>
+              <option value="400">2×</option>
+            </select>
+          </label>
+        </div>
+        <button id="radar-share" type="button" title="Copia um link com estes parâmetros">🔗 Copiar link</button>
+      </form>
+
+      <div id="radar-source-banner" class="banner info" style="margin-top:14px"></div>
+      <div id="radar-error" class="banner error" role="alert" style="margin-top:14px" hidden></div>
+      <div id="radar-cards" class="cards" style="margin-top:14px" aria-live="polite"></div>
+
+      <div class="radar-layout">
+        <div class="map-shell">
+          <div id="map" role="region" aria-label="Mapa das aeronaves"></div>
+          <div class="map-tools">
+            <button id="map-reset" type="button" class="icon" title="Reiniciar a visão do mapa" aria-label="Reiniciar a visão do mapa">⤢</button>
           </div>
-          <input id="step-range" type="range" min="0" value="0" aria-label="Etapa">
+          <div class="map-legend" aria-label="Legenda do mapa">
+            <span class="legend-item"><i class="dot normal"></i>Aeronave</span>
+            <span class="legend-item"><i class="dot alert"></i>Par mínimo abaixo do limiar</span>
+            <span class="legend-item"><i class="dot selected"></i>Par selecionado</span>
+            <span class="legend-item"><i class="line-swatch dashed"></i>Outro par abaixo do limiar</span>
+            <span class="legend-item"><i class="dot dim"></i>Fora do filtro</span>
+          </div>
+        </div>
+        <aside class="panel side-scroll" aria-labelledby="h-bands">
+          <h3 id="h-bands">Faixas de altitude</h3>
+          <div class="filters" role="search" aria-label="Filtros do radar">
+            <label class="field full">Buscar callsign
+              <input id="filter-search" type="search" placeholder="ex.: GLO1533" autocomplete="off">
+            </label>
+            <label class="field">Empresa (prefixo)
+              <select id="filter-airline"><option value="">Todas</option></select>
+            </label>
+            <label class="field">Faixa
+              <select id="filter-level"><option value="">Todas</option></select>
+            </label>
+            <label class="field inline full"><input id="filter-alert" type="checkbox"> Só faixas abaixo do limiar</label>
+          </div>
+          <div id="band-detail" class="detail" hidden></div>
+          <div class="table-wrap" id="bands-table"></div>
+          <p class="small muted" style="margin-top:10px">Cada faixa mostra <strong>um</strong> par: o mínimo da faixa. Para ver todos os pares abaixo do limiar, marque a opção acima (busca em grade, não D&amp;C).</p>
         </aside>
       </div>
     </section>
 
-    <section id="tab-benchmark" class="panel">
-      <div class="benchmark">
-        <h2>Tempo por número de pontos</h2>
-        <p class="note">Eixos em escala logarítmica. Pontos uniformes, melhor tempo de 3 execuções.</p>
-        <button id="run-benchmark">Executar benchmark</button>
-        <div id="legend" class="legend" hidden>
-          <span><i class="swatch divide"></i>Dividir e conquistar, O(n log n)</span>
-          <span><i class="swatch brute"></i>Força bruta, O(n²)</span>
+    <!-- ================= Visualizador ================= -->
+    <section id="view-visualizador" data-view-panel="visualizador" aria-labelledby="h-viz" hidden>
+      <div class="view-head">
+        <div>
+          <h2 id="h-viz">Visualizador recursivo — par mais próximo</h2>
+          <p>Cada etapa mostra o subproblema atual e o <strong>melhor par local</strong> daquela chamada (não o melhor global). Use <kbd>←</kbd> <kbd>→</kbd>, <kbd>Home</kbd>, <kbd>End</kbd> e <kbd>Espaço</kbd> com o foco no visualizador.</p>
         </div>
-        <div id="chart" class="chart"></div>
-        <div id="tooltip" class="tooltip" hidden></div>
-        <table id="benchmark-table" hidden>
-          <thead><tr><th>n</th><th>D&amp;C (ms)</th><th>Bruta (ms)</th><th>Comparações D&amp;C</th><th>Comparações bruta</th></tr></thead>
-          <tbody></tbody>
-        </table>
+      </div>
+      <form id="viz-form" class="panel toolbar" aria-label="Entrada do visualizador" novalidate>
+        <label class="field">Entrada
+          <select id="viz-mode">
+            <option value="case">Caso didático</option>
+            <option value="radar">Faixa do radar</option>
+            <option value="custom">Pontos personalizados</option>
+          </select>
+        </label>
+        <label class="field viz-case">Caso
+          <select id="viz-case"></select>
+        </label>
+        <label class="field viz-case">Pontos (2–64)
+          <input id="viz-n" type="number" min="2" max="64" value="16">
+        </label>
+        <label class="field viz-case">Seed
+          <input id="viz-seed" type="number" min="0" max="2147483647" value="21">
+        </label>
+        <label class="field viz-radar">Faixa
+          <select id="viz-band"></select>
+        </label>
+        <label class="field grow viz-custom">Pontos “x, y” (um por linha, 2–64)
+          <textarea id="viz-points" spellcheck="false">0, 0
+10, 40
+25, 20
+48, 55
+52, 57
+70, 5
+90, 70
+100, 100</textarea>
+        </label>
+        <button class="primary" type="submit">Executar</button>
+      </form>
+      <p id="viz-case-description" class="small muted" style="margin:8px 2px 0"></p>
+      <div id="viz-error" class="banner error" role="alert" style="margin-top:14px" hidden></div>
+
+      <div class="viz-layout" style="margin-top:14px">
+        <div class="stack">
+          <div class="panel" id="viz-stage" tabindex="0" aria-label="Visualização da etapa atual; use as setas para navegar">
+            <svg id="viz-svg" class="canvas" viewBox="0 0 800 520" role="img" aria-labelledby="viz-step-title"></svg>
+            <div class="legend-row" aria-hidden="true">
+              <span><i class="swatch" style="background:var(--region)"></i>Subproblema</span>
+              <span><i class="swatch" style="background:var(--strip)"></i>Faixa |x − x*| &lt; δ</span>
+              <span><i class="swatch" style="background:var(--warn)"></i>Pontos na faixa</span>
+              <span><i class="swatch" style="background:var(--reference)"></i>Pares comparados nesta etapa</span>
+              <span><i class="swatch" style="background:var(--critical)"></i>Melhor par local</span>
+            </div>
+            <div id="viz-player"></div>
+          </div>
+          <div class="panel">
+            <h3>Árvore de recursão</h3>
+            <div id="viz-tree" class="tree"></div>
+            <p class="small muted">Cada nó é uma chamada; o número é o tamanho do subproblema. Destacado: o nó da etapa atual.</p>
+          </div>
+        </div>
+        <div class="stack">
+          <div class="panel" aria-live="polite">
+            <div id="viz-step-title" class="step-title">—</div>
+            <p id="viz-step-text" class="step-text muted"></p>
+            <dl id="viz-step-kv" class="kv"></dl>
+          </div>
+          <div class="panel">
+            <h3>Pseudocódigo</h3>
+            <ol id="viz-pseudo" class="pseudo"></ol>
+          </div>
+          <div class="panel" id="viz-result"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Laboratório ================= -->
+    <section id="view-laboratorio" data-view-panel="laboratorio" aria-labelledby="h-lab" hidden>
+      <div class="view-head">
+        <div>
+          <h2 id="h-lab">Laboratório de dividir e conquistar</h2>
+          <p>Execução real, passo a passo para até 64 elementos, conferida com uma referência independente.</p>
+        </div>
+      </div>
+      <div class="panel">
+        <div id="lab-algorithms" class="segmented" role="group" aria-label="Algoritmo"></div>
+      </div>
+      <form id="lab-form" class="panel toolbar" aria-label="Entrada do laboratório" novalidate>
+        <label class="field">Entrada
+          <select id="lab-mode">
+            <option value="scenario">Cenário gerado</option>
+            <option value="custom">Valores personalizados</option>
+          </select>
+        </label>
+        <label class="field lab-scenario">Cenário
+          <select id="lab-scenario"></select>
+        </label>
+        <label class="field lab-scenario">n (1–2000)
+          <input id="lab-n" type="number" min="1" max="2000" value="16">
+        </label>
+        <label class="field">Seed
+          <input id="lab-seed" type="number" min="0" max="2147483647" value="21">
+        </label>
+        <label class="field grow lab-custom">Valores inteiros separados por vírgula
+          <input id="lab-values" type="text" value="5, -2, 9, 1, 5, 6, -7, 3" spellcheck="false">
+        </label>
+        <label class="field lab-pivot">Pivô
+          <select id="lab-pivot"></select>
+        </label>
+        <label class="field lab-k">k (1 = menor)
+          <input id="lab-k" type="number" min="1" value="3">
+        </label>
+        <button class="primary" type="submit">Executar</button>
+      </form>
+      <div id="lab-error" class="banner error" role="alert" style="margin-top:14px" hidden></div>
+      <div id="lab-summary" class="panel" style="margin-top:14px"></div>
+      <div class="viz-layout" style="margin-top:14px">
+        <div class="stack">
+          <div class="panel" id="lab-stage" tabindex="0" aria-label="Visualização do vetor; use as setas para navegar">
+            <svg id="lab-svg" class="canvas" viewBox="0 0 800 360" role="img" aria-labelledby="lab-step-title"></svg>
+            <div id="lab-legend" class="legend-row" aria-hidden="true"></div>
+            <div id="lab-player"></div>
+          </div>
+          <div class="panel" aria-live="polite">
+            <div id="lab-step-title" class="step-title">—</div>
+            <p id="lab-step-text" class="step-text muted"></p>
+          </div>
+        </div>
+        <div class="stack">
+          <div class="panel">
+            <h3>Pseudocódigo</h3>
+            <ol id="lab-pseudo" class="pseudo"></ol>
+          </div>
+          <div class="panel" id="lab-theory"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Comparação ================= -->
+    <section id="view-comparacao" data-view-panel="comparacao" aria-labelledby="h-compare" hidden>
+      <div class="view-head">
+        <div>
+          <h2 id="h-compare">Comparação lado a lado</h2>
+          <p>Os seis algoritmos D&amp;C contra suas referências, sobre a mesma entrada gerada pela seed. As operações de cada linha usam a mesma unidade para D&amp;C e referência; unidades diferem entre linhas.</p>
+        </div>
+      </div>
+      <form id="compare-form" class="panel toolbar" novalidate aria-label="Parâmetros da comparação">
+        <label class="field">Cenário dos vetores
+          <select id="compare-scenario"></select>
+        </label>
+        <label class="field">n (2–1000)
+          <input id="compare-n" type="number" min="2" max="1000" value="500">
+        </label>
+        <label class="field">Seed
+          <input id="compare-seed" type="number" min="0" max="2147483647" value="21">
+        </label>
+        <label class="field">Repetições
+          <input id="compare-repeats" type="number" min="1" max="7" value="3">
+        </label>
+        <button class="primary" type="submit">Comparar</button>
+      </form>
+      <div id="compare-error" class="banner error" role="alert" style="margin-top:14px" hidden></div>
+      <div id="compare-result" class="panel" style="margin-top:14px"><p class="empty">Escolha os parâmetros e clique em “Comparar”.</p></div>
+    </section>
+
+    <!-- ================= Benchmarks ================= -->
+    <section id="view-benchmarks" data-view-panel="benchmarks" aria-labelledby="h-bench" hidden>
+      <div class="view-head">
+        <div>
+          <h2 id="h-bench">Benchmarks</h2>
+          <p>Tempo de parede medido no servidor com <code>time.perf_counter</code>: aquecimento descartado, ordem D&amp;C/referência alternada, mediana de várias repetições. Os números dependem da máquina.</p>
+        </div>
+      </div>
+      <form id="bench-form" class="panel toolbar" novalidate aria-label="Parâmetros do benchmark">
+        <label class="field">Algoritmo
+          <select id="bench-algorithm"></select>
+        </label>
+        <label class="field">Cenário
+          <select id="bench-scenario"></select>
+        </label>
+        <label class="field bench-pivot">Pivô
+          <select id="bench-pivot"></select>
+        </label>
+        <label class="field grow">Tamanhos (até 8, separados por vírgula)
+          <input id="bench-sizes" type="text" value="250, 500, 1000, 2000" spellcheck="false">
+        </label>
+        <label class="field">Repetições
+          <input id="bench-repeats" type="number" min="1" max="7" value="3">
+        </label>
+        <label class="field">Seed
+          <input id="bench-seed" type="number" min="0" max="2147483647" value="21">
+        </label>
+        <label class="field inline"><input id="bench-warmup" type="checkbox" checked> Aquecimento</label>
+        <button class="primary" type="submit">Executar benchmark</button>
+      </form>
+      <p id="bench-limits" class="small muted" style="margin:8px 2px 0"></p>
+      <div id="bench-error" class="banner error" role="alert" style="margin-top:14px" hidden></div>
+      <div id="bench-result" class="panel" style="margin-top:14px"><p class="empty">Nenhum benchmark executado nesta sessão.</p></div>
+    </section>
+
+    <!-- ================= Teoria ================= -->
+    <section id="view-teoria" data-view-panel="teoria" aria-labelledby="h-theory" hidden>
+      <div class="view-head">
+        <div>
+          <h2 id="h-theory">Teoria</h2>
+          <p>O mesmo texto que acompanha cada algoritmo no laboratório, servido pela API a partir de uma única fonte.</p>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Teorema Mestre</h3>
+        <p>Para T(n) = a·T(n/b) + Θ(n<sup>d</sup>), com a ≥ 1, b &gt; 1 e d ≥ 0, compare d com log<sub>b</sub> a:</p>
+        <ul>
+          <li><strong>Caso 1</strong> — d &lt; log<sub>b</sub> a: as folhas dominam, T(n) = Θ(n<sup>log<sub>b</sub> a</sup>).</li>
+          <li><strong>Caso 2</strong> — d = log<sub>b</sub> a: cada nível custa o mesmo, T(n) = Θ(n<sup>d</sup> log n).</li>
+          <li><strong>Caso 3</strong> — d &gt; log<sub>b</sub> a: a raiz domina, T(n) = Θ(n<sup>d</sup>).</li>
+        </ul>
+        <p class="muted">Não se aplica quando os subproblemas têm tamanhos diferentes (T(n/5) + T(7n/10)), quando o tamanho diminui por subtração (T(n − 1)) ou quando o custo esperado depende de probabilidade (Quick Sort médio). Notação assintótica descreve crescimento; o tempo real também depende de constantes, cache e do interpretador.</p>
+      </div>
+      <div class="panel">
+        <div id="theory-nav" class="theory-nav" role="group" aria-label="Algoritmo"></div>
+        <div id="theory-content"></div>
+      </div>
+    </section>
+
+    <!-- ================= Exercícios ================= -->
+    <section id="view-exercicios" data-view-panel="exercicios" aria-labelledby="h-ex" hidden>
+      <div class="view-head">
+        <div>
+          <h2 id="h-ex">Exercícios</h2>
+          <p>Cada exercício é gerado por uma seed. O gabarito é calculado no servidor pelo próprio algoritmo D&amp;C e conferido com a referência.</p>
+        </div>
+      </div>
+      <form id="ex-form" class="panel toolbar" novalidate aria-label="Escolha do exercício">
+        <label class="field">Tipo
+          <select id="ex-type">
+            <option value="inversoes">Contagem de inversões</option>
+            <option value="soma_maxima">Subarray de soma máxima</option>
+            <option value="k_esimo">k-ésimo menor</option>
+            <option value="teorema_mestre">Teorema Mestre</option>
+          </select>
+        </label>
+        <label class="field">Seed
+          <input id="ex-seed" type="number" min="0" max="2147483647" value="1">
+        </label>
+        <button type="submit">Carregar</button>
+        <button id="ex-random" type="button">🎲 Novo aleatório</button>
+      </form>
+      <form id="ex-answer-form" class="panel" style="margin-top:14px" novalidate aria-live="polite">
+        <p class="empty">Carregando…</p>
+      </form>
+    </section>
+
+    <!-- ================= Ajuda ================= -->
+    <section id="view-ajuda" data-view-panel="ajuda" aria-labelledby="h-help" hidden>
+      <div class="view-head"><div><h2 id="h-help">Ajuda</h2></div></div>
+      <div class="grid-2">
+        <div class="panel">
+          <h3>Atalhos de teclado</h3>
+          <dl class="kv">
+            <dt><kbd>←</kbd> / <kbd>→</kbd></dt><dd>Etapa anterior / próxima (visualizador e laboratório, com foco na área)</dd>
+            <dt><kbd>Home</kbd> / <kbd>End</kbd></dt><dd>Primeira / última etapa</dd>
+            <dt><kbd>Espaço</kbd></dt><dd>Reproduzir ou pausar as etapas</dd>
+            <dt><kbd>Tab</kbd></dt><dd>Percorre controles; o foco é sempre visível</dd>
+          </dl>
+        </div>
+        <div class="panel">
+          <h3>Fontes de dados</h3>
+          <p><strong>Simulação:</strong> voos em linha reta entre 11 aeroportos brasileiros, gerados por seed; a mesma seed e o mesmo minuto produzem sempre o mesmo tráfego.</p>
+          <p><strong>Snapshot histórico:</strong> uma captura única da OpenSky Network guardada em <code>data/opensky_snapshot.json</code>. Não é atualizada e não é tempo real.</p>
+        </div>
+        <div class="panel">
+          <h3>O que o radar calcula</h3>
+          <p>Aeronaves são agrupadas por faixa de altitude (arredondamento meio para cima, largura configurável). Em cada faixa, o par de menor distância de círculo máximo (Terra esférica, R = 6.371 km) é encontrado por D&amp;C no plano tangente e certificado por uma grade. O resultado é exato no modelo esférico.</p>
+          <p class="muted">Limites do modelo: aeronaves perto do limite entre duas faixas são tratadas como separadas; não há projeção de trajetórias futuras; o limiar é um parâmetro, não uma norma.</p>
+        </div>
+        <div class="panel">
+          <h3>Limites de execução</h3>
+          <p id="help-limits" class="muted">Carregando…</p>
+        </div>
       </div>
     </section>
   </main>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="{{ url_for('static', filename='js/tabs.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/radar.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/steps.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/benchmark.js') }}"></script>
+  <footer>Projeto de Algoritmos · PA 26.2 · Radar de Conflitos Aéreos — Laboratório de Dividir e Conquistar</footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

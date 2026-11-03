@@ -236,29 +236,14 @@ Quick Sort em n = 2.000 mostra a dependência do pivô e da entrada: 28.059 comp
 
 ---
 
-## 🧪 Testes
+## 🎥 Apresentação
 
-Última execução: **457 aprovados** com `pytest` e **45** testes de interface com `pytest -m e2e`, 0 falhas, Python 3.14.7, Flask 3.1.3, pytest 9.2.0, Playwright 1.64.1. As duas suítes não se sobrepõem: `pytest` exclui os testes marcados como `e2e`.
-
-| Motor (e2e) | Resultado |
-|---|---|
-| Chrome (Chromium) | 45 aprovados |
-| Edge (Chromium) | 45 aprovados |
-| Firefox | 44 aprovados, 1 pulado (emulação de rede lenta/offline só existe via CDP no Chromium) |
-| WebKit | 42 aprovados, 3 pulados (o mesmo teste de rede e 2 de foco por Tab em links, que o WebKit não inclui por padrão, como o Safari) |
-
-| Arquivo | Testes | O que cobre |
-|---|---:|---|
-| [tests/test_lab_algorithms.py](tests/test_lab_algorithms.py) | 205 | algoritmos do laboratório contra `sorted()`, força bruta e Kadane em 8 cenários; estabilidade; todas as permutações até n = 6; todo k do Quickselect com e sem mediana das medianas; pior caso exato do Quick Sort; trilha ligada/desligada sem mudar o resultado; truncamento real da trilha; exercícios |
-| [tests/test_api.py](tests/test_api.py) | 75 | contratos JSON, determinismo, valores-limite aceitos, erros 400/404/405/413/429/503, debug desligado, erro interno sem stack trace |
-| [tests/test_geodesic.py](tests/test_geodesic.py) | 63 | contraexemplo da projeção antiga, haversine em 25 seeds, polos, antimeridiano, quase antípodas, empates, ordem da entrada, globo inteiro, desigualdade plano ≤ corda, pares abaixo do limiar |
-| [tests/test_closest_pair.py](tests/test_closest_pair.py) | 52 | força bruta em 30 seeds, subconjuntos exaustivos de uma grade, NaN/∞, colineares, semântica local de cada etapa, árvore de recursão |
-| [tests/test_bands.py](tests/test_bands.py) | 34 | limites de arredondamento de FL, distância exatamente no limiar, unidades km/NM, faixas vazias, varredura contra força bruta, regressão 12,470 km, snapshot ausente ou inválido |
-| [tests/test_benchmark.py](tests/test_benchmark.py) | 28 | amostras e estatísticas, contagens estáveis entre execuções, referência pulada sem valor inventado, orçamento de tempo, trava de concorrência |
-| [tests/e2e/test_regressions.py](tests/e2e/test_regressions.py) | 23 | Visão geral (atalhos, voltar do navegador, indicadores iguais à API, falhas da API, grade nos dois temas), textos removidos ausentes do DOM, cancelamento de requisições, rede lenta e offline, reprodução pausada ao sair, cenários JSON, contraste WCAG AA, `prefers-reduced-motion`, injeção de HTML |
-| [tests/e2e/test_ui.py](tests/e2e/test_ui.py) | 22 | todas as seções em 1920, 1366, 768 e 390 px sem erro de console, rolagem horizontal ou `null`/`NaN`; filtros, seleção, reprodução, validação, falha de rede e do Leaflet; teclado; exportação CSV |
-
----
+<div align="center">
+  
+  <a href="https://youtu.be/-T7vTaze_fE" target="_blank">
+    <img src="https://img.shields.io/badge/YouTube-Apresenta%C3%A7%C3%A3o-red?style=for-the-badge&logo=youtube&logoColor=white" alt="Apresentação no YouTube">
+  </a>
+</div>
 
 <div align="center">
   <h2>👩‍💻 Contribuidores</h2>
@@ -284,14 +269,3 @@ Quick Sort em n = 2.000 mostra a dependência do pivô e da entrada: 28.059 comp
     </td>
   </tr>
 </table>
-
----
-
-## 🎥 Apresentação
-
-<div align="center">
-  <!-- TODO: substituir pela URL da apresentação deste projeto antes da entrega. -->
-  <a href="https://youtu.be/NIj0w0bZG4s" target="_blank">
-    <img src="https://img.shields.io/badge/YouTube-Apresenta%C3%A7%C3%A3o-red?style=for-the-badge&logo=youtube&logoColor=white" alt="Apresentação no YouTube">
-  </a>
-</div>
